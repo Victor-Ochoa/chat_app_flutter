@@ -1,35 +1,6 @@
+import 'package:chat_app/main.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
-class ChatScreen extends StatefulWidget {
-  @override
-  _ChatScreenState createState() => _ChatScreenState();
-}
-
-class _ChatScreenState extends State<ChatScreen> {
-  @override
-  Widget build(BuildContext context) {
-    return SafeArea(
-      bottom: true,
-      top: true,
-      child: Scaffold(
-        appBar: AppBar(
-          title: Text("Chat"),
-          centerTitle: true,
-          elevation: Theme.of(context).platform == TargetPlatform.iOS ? 0 : 4,
-        ),
-        body: Column(
-          children: <Widget>[
-            Container(
-              decoration: BoxDecoration(color: Theme.of(context).cardColor),
-              child: TextComposer(),
-            )
-          ],
-        ),
-      ),
-    );
-  }
-}
 
 class TextComposer extends StatefulWidget {
   @override
@@ -38,6 +9,13 @@ class TextComposer extends StatefulWidget {
 
 class _TextComposerState extends State<TextComposer> {
   bool _isComposing = false;
+  final _textController = TextEditingController();
+  void _resetState() {
+    _textController.clear();
+    setState(() {
+      _isComposing = false;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -64,8 +42,13 @@ class _TextComposerState extends State<TextComposer> {
                     _isComposing = !(text == null || text.isEmpty);
                   });
                 },
+                onSubmitted: (text) {
+                  handleSubmite(text);
+                  _resetState();
+                },
                 decoration:
                     InputDecoration.collapsed(hintText: "Enviar uma Mensagem"),
+                controller: _textController,
               ),
             ),
             Container(
@@ -73,10 +56,20 @@ class _TextComposerState extends State<TextComposer> {
               child: Theme.of(context).platform == TargetPlatform.iOS
                   ? CupertinoButton(
                       child: Text("Enviar"),
-                      onPressed: _isComposing ? () {} : null,
+                      onPressed: _isComposing
+                          ? () {
+                              handleSubmite(_textController.text);
+                              _resetState();
+                            }
+                          : null,
                     )
                   : IconButton(
-                      onPressed: _isComposing ? () {} : null,
+                      onPressed: _isComposing
+                          ? () {
+                              handleSubmite(_textController.text);
+                              _resetState();
+                            }
+                          : null,
                       icon: Icon(Icons.send),
                     ),
             )
