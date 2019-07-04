@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 
-
 class ChatMessage extends StatelessWidget {
+
+  final Map<String, dynamic> data;
+
+  ChatMessage(this.data);
+  
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -12,8 +16,7 @@ class ChatMessage extends StatelessWidget {
           Container(
             margin: const EdgeInsets.only(right: 16),
             child: CircleAvatar(
-              backgroundImage: NetworkImage(
-                  "https://avatars0.githubusercontent.com/u/14099331?s=460&v=4"),
+              backgroundImage: NetworkImage(data["senderPhotoUrl"]),
             ),
           ),
           Expanded(
@@ -21,13 +24,17 @@ class ChatMessage extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 Text(
-                  "Victor",
+                  data["senderName"],
                   style: Theme.of(context).textTheme.subhead,
                 ),
                 Container(
-                  margin: EdgeInsets.only(top: 5),
-                  child: Text("Texto de teste."),
-                )
+                    margin: EdgeInsets.only(top: 5),
+                    child: data["imageUrl"] != null
+                        ? Image.network(
+                            data["imageUrl"],
+                            width: 250.0,
+                          )
+                        : Text(data["text"]))
               ],
             ),
           )

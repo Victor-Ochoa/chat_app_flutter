@@ -1,6 +1,7 @@
 import 'package:chat_app/main.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:chat_app/main.dart';
 
 class TextComposer extends StatefulWidget {
   @override
@@ -32,7 +33,9 @@ class _TextComposerState extends State<TextComposer> {
             Container(
               child: IconButton(
                 icon: Icon(Icons.photo_camera),
-                onPressed: () {},
+                onPressed: () async {
+                  
+                },
               ),
             ),
             Expanded(
